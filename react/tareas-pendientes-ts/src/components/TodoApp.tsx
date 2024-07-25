@@ -2,6 +2,45 @@ import React, { useState } from "react";
 import { ListaTareas } from "./ListaTareas";
 
 export const TodoApp = () => {
+    const [nuevaTarea, setnuevaTarea] = useState<string>('');
+    const [listaTareas, setListaTareas] = useState<string[]>([]);
+
+    const handleAddTask = () => {
+        if (nuevaTarea.trim() === '') {
+            return;
+        } else {
+            setListaTareas(tareasAnteriores => [...tareasAnteriores, nuevaTarea]);
+            setnuevaTarea('');
+        }
+    };
+
+    const handleBorrarTarea = (index: number) => {
+        setListaTareas(tareas => tareas.filter((_, i) => i !== index));
+    };
+
+    return (
+        <div className="app-container">
+            <h1>Lista de tareas:</h1>
+            <div className="input-container">
+                <input
+                    type="text"
+                    value={nuevaTarea}
+                    onChange={(e) => setnuevaTarea(e.target.value)}
+                    placeholder="Ingrese la tarea..."
+                />
+                <button onClick={handleAddTask}>Agregar tarea</button>
+            </div>
+            <ListaTareas listaTareas={listaTareas} borrarTarea={handleBorrarTarea} />
+        </div>
+    );
+};
+
+
+/*
+import React, { useState } from "react";
+import { ListaTareas } from "./ListaTareas";
+
+export const TodoApp = () => {
 
     const [nuevaTarea, setnuevaTarea] = useState<string>('');
     const [listaTareas, setListaTareas] = useState<string[]>([]);
@@ -34,3 +73,4 @@ export const TodoApp = () => {
         </div>
     );
 }
+    */
